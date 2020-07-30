@@ -6,13 +6,13 @@ import Grid from '@material-ui/core/Grid';
 class DynamicViewWrapper extends Component {
   conditionalRender() {
     const {
-      isLoading, loader, error, errorMessage, children,
+      isLoading, loader, error, children,
     } = this.props;
     if (isLoading) {
       return (<Grid container style={{ padding: '2rem' }} justify="center">{loader}</Grid>);
     }
     if (error) {
-      return (<Grid container style={{ padding: '2rem' }} justify="center">{errorMessage}</Grid>);
+      return (<Grid container style={{ padding: '2rem' }} justify="center">{error}</Grid>);
     }
 
     return <>{children}</>;
@@ -28,18 +28,16 @@ class DynamicViewWrapper extends Component {
 }
 
 DynamicViewWrapper.propTypes = {
-  isLoading: PropTypes.string.isRequired,
-  errorMessage: PropTypes.string,
+  isLoading: PropTypes.bool.isRequired,
+  error: PropTypes.string,
   loader: PropTypes.element,
   children: PropTypes.element,
-  error: PropTypes.bool,
 };
 
 DynamicViewWrapper.defaultProps = {
   children: <>No Content</>,
-  errorMessage: 'Something Went Wrong!!!',
+  error: 'Something Went Wrong!!!',
   loader: <>Loading...</>,
-  error: false,
 };
 
 export default DynamicViewWrapper;

@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -14,9 +16,7 @@ const DEFAULT_FORM_VALUES = {
   body: '',
 };
 
-const validateMinimumLetters = (text = '') => {
-  return text.length < 3;
-}
+const validateMinimumLetters = (text = '') => text.length < 3;
 
 class FormDialog extends Component {
   constructor(props) {
@@ -134,5 +134,16 @@ class FormDialog extends Component {
     );
   }
 }
+
+FormDialog.propTypes = {
+  editForm: PropTypes.shape({
+    isOpen: PropTypes.bool.isRequired,
+    id: PropTypes.number,
+    title: PropTypes.string.isRequired,
+    body: PropTypes.string.isRequired,
+  }).isRequired,
+  hideDialog: PropTypes.func.isRequired,
+  updatePost: PropTypes.func.isRequired,
+};
 
 export default FormDialog;

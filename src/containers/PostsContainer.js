@@ -10,9 +10,9 @@ import Grid from '@material-ui/core/Grid';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
 
-import { getPosts, updatePost, updatePageNumber } from '../actions/postsAction';
-import { showDialog, hideDialog, editDialog } from '../actions/editFormAction';
-import { toggleSearch } from '../actions/headerAction';
+import * as postsActions from '../actions/postsAction';
+import * as editFormActions from '../actions/editFormAction';
+import * as headerActions from '../actions/headerAction';
 
 import PostItems from '../components/PostItems';
 import FormDialog from '../components/FormDialog';
@@ -21,12 +21,12 @@ import DynamicViewWrapper from '../components/DynamicViewWrapper';
 class PostsContainer extends Component {
   componentDidMount() {
     const {
-      getPosts: getThePosts,
-      updatePageNumber: updateNewPageNumber,
+      getPosts,
+      updatePageNumber,
       match: { params: { pageNumber } },
     } = this.props;
-    updateNewPageNumber(Number(pageNumber) || 1);
-    getThePosts();
+    updatePageNumber(Number(pageNumber) || 1);
+    getPosts();
   }
 
   componentDidUpdate(prevProps) {
@@ -60,9 +60,9 @@ class PostsContainer extends Component {
 
   render() {
     const {
-      editDialog: editTheDialog,
-      hideDialog: hideTheDialog,
-      updatePost: updateThePost,
+      editDialog,
+      hideDialog,
+      updatePost,
       editForm,
       posts,
       searchInputText,
@@ -77,14 +77,14 @@ class PostsContainer extends Component {
         >
           <PostItems
             items={this.filterPosts(pageNumber)}
-            editDialog={(e) => editTheDialog(e)}
+            editDialog={(e) => editDialog(e)}
             searchInputText={searchInputText}
           />
         </DynamicViewWrapper>
         <FormDialog
           editForm={editForm}
-          hideDialog={(e) => hideTheDialog(e)}
-          updatePost={(e) => updateThePost(e)}
+          hideDialog={(e) => hideDialog(e)}
+          updatePost={(e) => updatePost(e)}
         />
         {!searchInputText
           && (
@@ -120,6 +120,7 @@ PostsContainer.propTypes = {
   editDialog: PropTypes.func.isRequired,
   hideDialog: PropTypes.func.isRequired,
   updatePost: PropTypes.func.isRequired,
+  toggleSearch: PropTypes.func.isRequired,
   editForm: PropTypes.instanceOf(Object),
   match: PropTypes.instanceOf(Object),
   posts: PropTypes.shape({
@@ -128,7 +129,7 @@ PostsContainer.propTypes = {
     items: PropTypes.instanceOf(Array),
     error: PropTypes.string,
   }),
-  isSearchShown: PropTypes.string.isRequired,
+  isSearchShown: PropTypes.bool.isRequired,
   searchInputText: PropTypes.string,
 };
 
@@ -161,13 +162,13 @@ const mapStateToProps = ({ posts, editForm, header }) => ({
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-  getPosts,
-  updatePost,
-  showDialog,
-  hideDialog,
-  editDialog,
-  updatePageNumber,
-  toggleSearch,
+  getPosts: postsActions.getPosts,
+  updatePost: postsActions.updatePost,
+  showDialog: editFormActions.showDialog,
+  hideDialog: editFormActions.hideDialog,
+  editDialog: editFormActions.editDialog,
+  updatePageNumber: postsActions.updatePageNumber,
+  toggleSearch: headerActions.toggleSearch,
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(PostsContainer));

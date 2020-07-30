@@ -8,8 +8,8 @@ import Button from '@material-ui/core/Button';
 
 class PostItems extends Component {
   handleEditClick(item) {
-    const { editDialog: editTheDialog } = this.props;
-    editTheDialog(item);
+    const { editDialog } = this.props;
+    editDialog(item);
   }
 
   renderNoResult() {
@@ -42,8 +42,7 @@ class PostItems extends Component {
                 </div>
               </div>
             ))
-          : this.renderNoResult()
-        }
+          : this.renderNoResult()}
       </article>
     );
   }

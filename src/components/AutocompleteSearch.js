@@ -9,10 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 // import TextField from '@material-ui/core/TextField';
 // import Autocomplete from '@material-ui/lab/Autocomplete';
 
-import {
-  toggleSearchInput,
-  updateSearchInputText,
-} from '../actions/headerAction';
+import * as headerActions from '../actions/headerAction';
 
 class AutocompleteSearch extends Component {
   constructor(props) {
@@ -97,7 +94,8 @@ class AutocompleteSearch extends Component {
               </IconButton>
             )}
           <datalist id="itemsList">
-            {itemsList.map((item) => (<option value={item.title}>{item.title}</option>))}
+            {itemsList.map((item) => (
+              <option key={item.id} value={item.title}>{item.title}</option>))}
           </datalist>
         </>
       )
@@ -107,6 +105,10 @@ class AutocompleteSearch extends Component {
 
 AutocompleteSearch.propTypes = {
   itemsList: PropTypes.instanceOf(Array),
+  toggleSearchInput: PropTypes.func.isRequired,
+  updateSearchInputText: PropTypes.func.isRequired,
+  isSearchInputShown: PropTypes.bool.isRequired,
+  isSearchShown: PropTypes.bool.isRequired,
 };
 
 AutocompleteSearch.defaultProps = {
@@ -120,8 +122,8 @@ const mapStateToProps = ({ header }) => ({
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-  toggleSearchInput,
-  updateSearchInputText,
+  toggleSearchInput: headerActions.toggleSearchInput,
+  updateSearchInputText: headerActions.updateSearchInputText,
 }, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(AutocompleteSearch);
