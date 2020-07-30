@@ -1,21 +1,32 @@
-import { SHOW_SEARCH_INPUT, HIDE_SEARCH_INPUT } from '../actions/types';
+import {
+  TOGGLE_SEARCH,
+  TOGGLE_SEARCH_INPUT,
+  UPDATE_SEARCH_INPUT_TEXT,
+} from '../actions/types';
 
 const initialState = {
   title: 'Typicode Posts',
-  showSearch: true,
+  isSearchShown: true,
+  isSearchInputShown: false,
+  searchInputText: '',
 };
 
 export default function headerReducer(state = initialState, action = {}) {
   switch (action.type) {
-    case SHOW_SEARCH_INPUT:
+    case TOGGLE_SEARCH:
       return {
         ...state,
-        showSearch: true,
+        isSearchShown: action.payload.isSearchShown,
       };
-    case HIDE_SEARCH_INPUT:
+    case TOGGLE_SEARCH_INPUT:
       return {
         ...state,
-        showSearch: false,
+        isSearchInputShown: action.payload.isSearchInputShown,
+      };
+    case UPDATE_SEARCH_INPUT_TEXT:
+      return {
+        ...state,
+        searchInputText: action.payload.searchInputText,
       };
     default:
       return state;

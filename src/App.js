@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import propTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import Container from '@material-ui/core/Container';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-} from "react-router-dom";
+} from 'react-router-dom';
 
 import Header from './components/Header';
 import PostsContainer from './containers/PostsContainer';
@@ -37,11 +37,21 @@ class App extends Component {
 }
 
 App.propTypes = {
-  title: propTypes.string,
+  header: PropTypes.shape({
+    title: PropTypes.string,
+  }),
+  posts: PropTypes.shape({
+    items: PropTypes.instanceOf(Array),
+  }),
 };
 
 App.defaultProps = {
-  title: 'Blog',
+  header: {
+    title: 'Blog',
+  },
+  posts: {
+    items: [],
+  },
 };
 
 const mapStateToProps = ({ header, posts }) => ({

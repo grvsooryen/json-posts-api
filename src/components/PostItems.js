@@ -8,16 +8,24 @@ import Button from '@material-ui/core/Button';
 
 class PostItems extends Component {
   handleEditClick(item) {
-    const { editDialog } = this.props;
-    editDialog(item);
+    const { editDialog: editTheDialog } = this.props;
+    editTheDialog(item);
+  }
+
+  renderNoResult() {
+    const { searchInputText } = this.props;
+    if (searchInputText) {
+      return (<p>No Results Found</p>);
+    }
+    return (<p>You do not have any posts</p>);
   }
 
   render() {
     const { items } = this.props;
     return (
       <article>
-        {
-          items
+        {items.length
+          ? items
             .map((item) => (
               <div key={item.id}>
                 <h2>{item.title}</h2>
@@ -34,6 +42,7 @@ class PostItems extends Component {
                 </div>
               </div>
             ))
+          : this.renderNoResult()
         }
       </article>
     );
@@ -41,11 +50,14 @@ class PostItems extends Component {
 }
 
 PostItems.propTypes = {
+  editDialog: PropTypes.func.isRequired,
   items: PropTypes.instanceOf(Array),
+  searchInputText: PropTypes.string,
 };
 
 PostItems.defaultProps = {
   items: [],
+  searchInputText: '',
 };
 
 export default PostItems;

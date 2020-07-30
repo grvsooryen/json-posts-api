@@ -56,8 +56,8 @@ class FormDialog extends Component {
     const { title, body } = this.state;
     updatePost({
       id: editForm.id,
-      title,
-      body,
+      title: title.trim(),
+      body: body.trim(),
     });
     hideDialog();
     this.setState({

@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import Grid from '@material-ui/core/Grid';
+
 class DynamicViewWrapper extends Component {
   conditionalRender() {
     const {
       isLoading, loader, error, errorMessage, children,
     } = this.props;
     if (isLoading) {
-      return (<div className="text-center">{loader}</div>);
+      return (<Grid container style={{ padding: '2rem' }} justify="center">{loader}</Grid>);
     }
     if (error) {
-      return (<div className="text-center">{errorMessage}</div>);
+      return (<Grid container style={{ padding: '2rem' }} justify="center">{errorMessage}</Grid>);
     }
 
     return <>{children}</>;
