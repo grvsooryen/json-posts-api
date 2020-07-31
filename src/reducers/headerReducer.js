@@ -4,8 +4,10 @@ import {
   UPDATE_SEARCH_INPUT_TEXT,
 } from '../actions/types';
 
-const initialState = {
-  title: 'Typicode Posts',
+import config from '../config'
+
+export const initialState = {
+  title: config.blogTitle,
   isSearchShown: true,
   isSearchInputShown: false,
   searchInputText: '',

@@ -6,7 +6,7 @@ import {
   UPDATE_PAGE_NUMBER,
 } from '../actions/types';
 
-const initialState = {
+export const initialState = {
   isLoading: false,
   items: [],
   error: '',

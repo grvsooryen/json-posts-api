@@ -1,17 +1,20 @@
-/* eslint-disable no-underscore-dangle */
-import { applyMiddleware, createStore, compose } from 'redux';
-// import { createLogger } from 'redux-logger';
+import { createStore, applyMiddleware, compose } from 'redux';
+import createSagaMiddleware from 'redux-saga';
 import thunk from 'redux-thunk';
 import reducers from './reducers';
+import sagas from './sagas';
 
-// const logger = createLogger({});
+const sagaMiddleware = createSagaMiddleware();
 
-const middleware = applyMiddleware(thunk);
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-export default createStore(
+const store = createStore(
   reducers,
-  compose(
-    middleware,
-    // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
+  composeEnhancers(
+    applyMiddleware(sagaMiddleware, thunk),
   ),
 );
+
+sagaMiddleware.run(sagas);
+
+export default store;

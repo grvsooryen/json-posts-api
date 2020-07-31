@@ -4,8 +4,9 @@ import {
   GET_ARTICLE_ERROR,
 } from '../actions/types';
 
-const initialState = {
+export const initialState = {
   isLoading: false,
+  nextPostId: 0,
   items: [],
   error: '',
   userId: 0,
@@ -14,10 +15,10 @@ const initialState = {
   body: '',
 };
 
-export default function postReducer(state = initialState, action = {}) {
+export default function articleReducer(state = initialState, action = {}) {
   switch (action.type) {
     case GET_ARTICLE:
-      return { ...state, isLoading: true };
+      return { ...state, isLoading: true, nextPostId: action.payload };
     case GET_ARTICLE_SUCCESS:
       return {
         ...state,

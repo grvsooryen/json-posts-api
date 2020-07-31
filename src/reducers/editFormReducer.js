@@ -1,7 +1,8 @@
 import { SHOW_DIALOG, HIDE_DIALOG, EDIT_POST } from '../actions/types';
 
-const initialState = {
+export const initialState = {
   isOpen: false,
+  id: 0,
   title: '',
   body: '',
 };

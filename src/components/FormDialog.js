@@ -123,6 +123,7 @@ class FormDialog extends Component {
             </Button>
             <Button
               onClick={this.handleSave}
+              variant="contained"
               color="primary"
               disabled={(validateMinimumLetters(title) || validateMinimumLetters(body))}
             >
