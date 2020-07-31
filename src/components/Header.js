@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
+import { withStyles } from '@material-ui/core';
 import AutocompleteSearch from './AutocompleteSearch';
 
-const useStyles = makeStyles((theme) => ({
+const styles = (theme) => ({
   toolbar: {
     borderBottom: `1px solid ${theme.palette.divider}`,
   },
@@ -20,33 +20,32 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1),
     flexShrink: 0,
   },
-}));
-
-function Header(props) {
-  const classes = useStyles();
-  const { title, itemsList } = props;
-
-  return (
-    <>
-      <Toolbar className={classes.toolbar}>
-        <Typography
-          component="h2"
-          variant="h5"
-          color="inherit"
-          align="center"
-          noWrap
-          className={classes.toolbarTitle}
-        >
-          {title}
-        </Typography>
-        <AutocompleteSearch itemsList={itemsList} />
-      </Toolbar>
-
-    </>
-  );
+});
+class Header extends Component {
+  render() {
+    const { title, itemsList, classes } = this.props;
+    return (
+      <>
+        <Toolbar className={classes.toolbar}>
+          <Typography
+            component="h2"
+            variant="h5"
+            color="inherit"
+            align="center"
+            noWrap
+            className={classes.toolbarTitle}
+          >
+            {title}
+          </Typography>
+          <AutocompleteSearch itemsList={itemsList} />
+        </Toolbar>
+      </>
+    );
+  }
 }
 
 Header.propTypes = {
+  classes: PropTypes.instanceOf(Object).isRequired,
   title: PropTypes.string.isRequired,
   itemsList: PropTypes.instanceOf(Array),
 };
@@ -55,4 +54,4 @@ Header.defaultProps = {
   itemsList: [],
 };
 
-export default Header;
+export default withStyles(styles)(Header);

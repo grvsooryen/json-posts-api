@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
+import Grid from '@material-ui/core/Grid';
 import EditIcon from '@material-ui/icons/Edit';
-
 import Button from '@material-ui/core/Button';
 
 class PostItems extends Component {
@@ -32,14 +32,14 @@ class PostItems extends Component {
                 <p>
                   {item.body}
                 </p>
-                <div style={{ textAlign: 'right' }}>
-                  <Button aria-label="delete" color="primary" variant="outlined" onClick={() => this.handleEditClick(item)}>
-                    <EditIcon />
-                  </Button>
-                  <Button component={Link} to={`/post/${item.id}`} variant="outlined" size="medium" color="primary">
+                <Grid container justify="space-between">
+                  <Button component={Link} to={`/post/${item.id}`} size="medium" variant="contained" color="secondary">
                     Read More
                   </Button>
-                </div>
+                  <Button aria-label="edit" color="primary" variant="outlined" onClick={() => this.handleEditClick(item)}>
+                    <EditIcon />
+                  </Button>
+                </Grid>
               </div>
             ))
           : this.renderNoResult()}

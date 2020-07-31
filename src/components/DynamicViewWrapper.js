@@ -2,17 +2,23 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import Grid from '@material-ui/core/Grid';
+import { withStyles } from '@material-ui/core';
 
+const styles = () => ({
+  spacer: {
+    padding: '2rem',
+  },
+});
 class DynamicViewWrapper extends Component {
   conditionalRender() {
     const {
-      isLoading, loader, error, children,
+      isLoading, loader, error, children, classes,
     } = this.props;
     if (isLoading) {
-      return (<Grid container style={{ padding: '2rem' }} justify="center">{loader}</Grid>);
+      return (<Grid container className={classes.spacer} justify="center">{loader}</Grid>);
     }
     if (error) {
-      return (<Grid container style={{ padding: '2rem' }} justify="center">{error}</Grid>);
+      return (<Grid container className={classes.spacer} justify="center">{error}</Grid>);
     }
 
     return <>{children}</>;
@@ -28,10 +34,11 @@ class DynamicViewWrapper extends Component {
 }
 
 DynamicViewWrapper.propTypes = {
+  classes: PropTypes.instanceOf(Object).isRequired,
   isLoading: PropTypes.bool.isRequired,
   error: PropTypes.string,
   loader: PropTypes.element,
-  children: PropTypes.element,
+  children: PropTypes.node,
 };
 
 DynamicViewWrapper.defaultProps = {
@@ -40,4 +47,4 @@ DynamicViewWrapper.defaultProps = {
   loader: <>Loading...</>,
 };
 
-export default DynamicViewWrapper;
+export default withStyles(styles)(DynamicViewWrapper);

@@ -6,11 +6,26 @@ import PropTypes from 'prop-types';
 import SearchIcon from '@material-ui/icons/Search';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
+import { withStyles } from '@material-ui/core';
 // import TextField from '@material-ui/core/TextField';
 // import Autocomplete from '@material-ui/lab/Autocomplete';
 
 import * as headerActions from '../actions/headerAction';
 
+const styles = () => ({
+  invisible: {
+    visibility: 'hidden',
+  },
+  formPosition: {
+    display: 'flex',
+    position: 'absolute',
+    right: '1.5rem',
+  },
+  datalistInput: {
+    height: '48px',
+    padding: '5px 10px',
+  },
+});
 class AutocompleteSearch extends Component {
   constructor(props) {
     super(props);
@@ -52,17 +67,19 @@ class AutocompleteSearch extends Component {
 
   render() {
     const { searchInputText } = this.state;
-    const { itemsList, isSearchInputShown, isSearchShown } = this.props;
+    const {
+      itemsList, isSearchInputShown, isSearchShown, classes,
+    } = this.props;
     return isSearchShown
       ? (
         <>
           {isSearchInputShown
             ? (
               <>
-                <IconButton style={{ visibility: 'hidden' }}>
+                <IconButton className={classes.invisible}>
                   <SearchIcon />
                 </IconButton>
-                <div style={{ display: 'flex', position: 'absolute', right: '1.5rem' }}>
+                <div className={classes.formPosition}>
                   {/* <TextField
                   label="Search input"
                   autoFocus
@@ -73,10 +90,7 @@ class AutocompleteSearch extends Component {
                     <input
                       type="search"
                       list="itemsList"
-                      style={{
-                        height: '48px',
-                        padding: '5px 10px',
-                      }}
+                      className={classes.datalistInput}
                       onInput={this.handleInput}
                       value={searchInputText}
                       placeholder="Search"
@@ -104,6 +118,7 @@ class AutocompleteSearch extends Component {
 }
 
 AutocompleteSearch.propTypes = {
+  classes: PropTypes.instanceOf(Object).isRequired,
   itemsList: PropTypes.instanceOf(Array),
   toggleSearchInput: PropTypes.func.isRequired,
   updateSearchInputText: PropTypes.func.isRequired,
@@ -126,4 +141,6 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   updateSearchInputText: headerActions.updateSearchInputText,
 }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(AutocompleteSearch);
+export default connect(
+  mapStateToProps, mapDispatchToProps,
+)(withStyles(styles)(AutocompleteSearch));

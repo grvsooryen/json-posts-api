@@ -9,6 +9,7 @@ import PaginationItem from '@material-ui/lab/PaginationItem';
 import Grid from '@material-ui/core/Grid';
 import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
+import { withStyles } from '@material-ui/core';
 
 import * as postsActions from '../actions/postsAction';
 import * as editFormActions from '../actions/editFormAction';
@@ -18,6 +19,11 @@ import PostItems from '../components/PostItems';
 import FormDialog from '../components/FormDialog';
 import DynamicViewWrapper from '../components/DynamicViewWrapper';
 
+const styles = () => ({
+  spacedPagination: {
+    margin: '3rem auto',
+  },
+});
 class PostsContainer extends Component {
   componentDidMount() {
     const {
@@ -32,15 +38,13 @@ class PostsContainer extends Component {
   componentDidUpdate(prevProps) {
     const { match: { params: { pageNumber: prevPageNumber } } } = prevProps;
     const {
-      match: {
-        params: { pageNumber },
-      },
-      updatePageNumber: updateCurrentPageNumber,
+      updatePageNumber,
       isSearchShown,
       toggleSearch,
+      match: { params: { pageNumber } },
     } = this.props;
     if (pageNumber !== prevPageNumber) {
-      updateCurrentPageNumber(pageNumber);
+      updatePageNumber(Number(pageNumber) || 1);
     }
 
     if (!isSearchShown) {
@@ -66,6 +70,7 @@ class PostsContainer extends Component {
       editForm,
       posts,
       searchInputText,
+      classes,
     } = this.props;
     const { pageNumber = 1 } = posts;
     return (
@@ -90,11 +95,7 @@ class PostsContainer extends Component {
           && (
             <Grid container justify="center">
               <Pagination
-                style={{
-                  display: 'block',
-                  margin: '3rem auto',
-
-                }}
+                className={classes.spacedPagination}
                 page={Number(pageNumber)}
                 count={10}
                 color="primary"
@@ -115,6 +116,7 @@ class PostsContainer extends Component {
 }
 
 PostsContainer.propTypes = {
+  classes: PropTypes.instanceOf(Object).isRequired,
   getPosts: PropTypes.func.isRequired,
   updatePageNumber: PropTypes.func.isRequired,
   editDialog: PropTypes.func.isRequired,
@@ -171,4 +173,7 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
   toggleSearch: headerActions.toggleSearch,
 }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(PostsContainer));
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(withRouter(withStyles(styles)(PostsContainer)));
