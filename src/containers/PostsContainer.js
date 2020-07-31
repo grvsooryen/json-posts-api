@@ -92,7 +92,8 @@ class PostsContainer extends Component {
           updatePost={(e) => updatePost(e)}
         />
         {!searchInputText
-          && (
+          && posts.items.length
+          ? (
             <Grid container justify="center">
               <Pagination
                 className={classes.spacedPagination}
@@ -109,7 +110,7 @@ class PostsContainer extends Component {
                 )}
               />
             </Grid>
-          )}
+          ) : ''}
       </main>
     );
   }
