@@ -1,5 +1,5 @@
 const config = {
-  apiEndpoint: 'http://jsonplaceholder.typicode.com',
+  apiEndpoint: 'https://jsonplaceholder.typicode.com',
   blogTitle: 'Typicode Posts',
 };
 
