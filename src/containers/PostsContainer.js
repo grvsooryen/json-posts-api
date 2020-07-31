@@ -129,7 +129,14 @@ PostsContainer.propTypes = {
   posts: PropTypes.shape({
     isLoading: PropTypes.bool,
     pageNumber: PropTypes.number,
-    items: PropTypes.instanceOf(Array),
+    items: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number,
+        title: PropTypes.string,
+        body: PropTypes.string,
+        userId: PropTypes.number,
+      }),
+    ),
     error: PropTypes.string,
   }),
   isSearchShown: PropTypes.bool.isRequired,

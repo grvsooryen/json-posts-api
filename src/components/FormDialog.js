@@ -37,12 +37,6 @@ class FormDialog extends Component {
     return state;
   }
 
-  handleClickOpen = () => {
-    this.setState({
-      isOpen: true,
-    });
-  };
-
   handleClose = () => {
     const { hideDialog } = this.props;
     hideDialog();
@@ -96,33 +90,42 @@ class FormDialog extends Component {
               margin="dense"
               id="title"
               label="Title"
-              type="text"
+              name="title"
               value={title}
               error={validateMinimumLetters(title)}
               helperText={validateMinimumLetters(title) ? 'Should have minimum three characters' : ' '}
               onChange={this.handleTitleChange}
+              inputProps={{ 'data-testid': 'title' }}
               fullWidth
             />
             <TextField
               autoFocus
               margin="dense"
-              id="title"
+              id="body"
               label="Body"
               type="text"
               value={body}
               error={validateMinimumLetters(body)}
               helperText={validateMinimumLetters(body) ? 'Should have minimum three characters' : ''}
               onChange={this.handleBodyChange}
+              inputProps={{ 'data-testid': 'body' }}
               fullWidth
               multiline
             />
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.handleClose} color="primary">
+            <Button
+              onClick={this.handleClose}
+              role="button"
+              name="cancel"
+              color="primary"
+            >
               Cancel
             </Button>
             <Button
               onClick={this.handleSave}
+              role="button"
+              name="save"
               variant="contained"
               color="primary"
               disabled={(validateMinimumLetters(title) || validateMinimumLetters(body))}

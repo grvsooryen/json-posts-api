@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 import Grid from '@material-ui/core/Grid';
-import EditIcon from '@material-ui/icons/Edit';
 import Button from '@material-ui/core/Button';
 
 class PostItems extends Component {
@@ -36,8 +35,8 @@ class PostItems extends Component {
                   <Button component={Link} to={`/post/${item.id}`} size="medium" variant="contained" color="secondary">
                     Read More
                   </Button>
-                  <Button aria-label="edit" color="primary" variant="outlined" onClick={() => this.handleEditClick(item)}>
-                    <EditIcon />
+                  <Button aria-label="edit" role="button" name="edit" color="primary" variant="outlined" onClick={() => this.handleEditClick(item)}>
+                    Edit
                   </Button>
                 </Grid>
               </div>
@@ -50,7 +49,14 @@ class PostItems extends Component {
 
 PostItems.propTypes = {
   editDialog: PropTypes.func.isRequired,
-  items: PropTypes.instanceOf(Array),
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      title: PropTypes.string,
+      body: PropTypes.string,
+      userId: PropTypes.number,
+    }),
+  ),
   searchInputText: PropTypes.string,
 };
 

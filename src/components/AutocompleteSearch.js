@@ -1,16 +1,10 @@
 import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import SearchIcon from '@material-ui/icons/Search';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 import { withStyles } from '@material-ui/core';
-// import TextField from '@material-ui/core/TextField';
-// import Autocomplete from '@material-ui/lab/Autocomplete';
-
-import * as headerActions from '../actions/headerAction';
 
 const styles = () => ({
   invisible: {
@@ -80,20 +74,15 @@ class AutocompleteSearch extends Component {
                   <SearchIcon />
                 </IconButton>
                 <div className={classes.formPosition}>
-                  {/* <TextField
-                  label="Search input"
-                  autoFocus
-                  list="itemsList"
-                  InputProps={{ type: 'search', list: 'itemsList' }}
-                /> */}
                   <form onSubmit={this.handleSubmit}>
                     <input
                       type="search"
                       list="itemsList"
                       className={classes.datalistInput}
-                      onInput={this.handleInput}
+                      onChange={this.handleInput}
                       value={searchInputText}
                       placeholder="Search"
+                      data-testid="searchInput"
                     />
                   </form>
                   <IconButton onClick={(e) => this.handleSearchIconClick(e)}>
@@ -103,7 +92,7 @@ class AutocompleteSearch extends Component {
               </>
             )
             : (
-              <IconButton onClick={(e) => this.handleSearchIconClick(e)}>
+              <IconButton role="button" name="search" onClick={(e) => this.handleSearchIconClick(e)}>
                 <SearchIcon />
               </IconButton>
             )}
@@ -119,7 +108,14 @@ class AutocompleteSearch extends Component {
 
 AutocompleteSearch.propTypes = {
   classes: PropTypes.instanceOf(Object).isRequired,
-  itemsList: PropTypes.instanceOf(Array),
+  itemsList: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      title: PropTypes.string,
+      body: PropTypes.string,
+      userId: PropTypes.number,
+    }),
+  ),
   toggleSearchInput: PropTypes.func.isRequired,
   updateSearchInputText: PropTypes.func.isRequired,
   isSearchInputShown: PropTypes.bool.isRequired,
@@ -130,17 +126,4 @@ AutocompleteSearch.defaultProps = {
   itemsList: [],
 };
 
-const mapStateToProps = ({ header }) => ({
-  searchInputText: header.searchInputText,
-  isSearchShown: header.isSearchShown,
-  isSearchInputShown: header.isSearchInputShown,
-});
-
-const mapDispatchToProps = (dispatch) => bindActionCreators({
-  toggleSearchInput: headerActions.toggleSearchInput,
-  updateSearchInputText: headerActions.updateSearchInputText,
-}, dispatch);
-
-export default connect(
-  mapStateToProps, mapDispatchToProps,
-)(withStyles(styles)(AutocompleteSearch));
+export default withStyles(styles)(AutocompleteSearch);
